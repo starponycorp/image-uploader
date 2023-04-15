@@ -13,10 +13,10 @@ configuration:
   # Настройка директорий и формата для итоговых изображений
   formats:
     avatars:
-      type: "png"
+      type: "webp"
       width: 128
       height: 128
     covers:
-      type: "jpg"
+      type: "webp"
       width: 310
       height: 500

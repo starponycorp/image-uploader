@@ -40,7 +40,7 @@ public class ImagesService {
     }
 
     private InputStream resize(String path, InputStream imageStream) throws ImagesException {
-        return ImageUtils.resize(imageStream, getPathImageFormat(path));
+        return ImageUtils.processImage(imageStream, getPathImageFormat(path));
     }
 
     private String save(String path, InputStream imageStream) throws ImagesException {
