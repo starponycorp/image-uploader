@@ -1,6 +1,6 @@
 package com.starpony.imageuploader.images;
 
-import com.starpony.imageuploader.images.errors.ImagesException;
+import com.starpony.imageuploader.images.exceptions.InvalidImageException;
 import com.starpony.imageuploader.images.models.ImageFormat;
 
 import javax.imageio.ImageIO;
@@ -10,11 +10,11 @@ import java.io.*;
 
 
 public class ImageUtils {
-    public static ByteArrayInputStream processImage(InputStream stream, ImageFormat format) throws ImagesException {
+    public static ByteArrayInputStream processImage(InputStream stream, ImageFormat format) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             BufferedImage resultImage = resizeImage(
-                    cropImage(ImageIO.read(stream), format), format);
+                    cropImage(parseStream(stream), format), format);
             ImageIO.write(resultImage, format.getType(), outputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -22,6 +22,18 @@ public class ImageUtils {
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
+    private static BufferedImage parseStream(InputStream stream) {
+        BufferedImage image;
+        try {
+            image = ImageIO.read(stream);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        if (image == null)
+            throw new InvalidImageException("Parse image error. The file may be in an incorrect format");
+        return image;
+    }
 
     /*
         Сжатие изображения до значений, указанных в формате

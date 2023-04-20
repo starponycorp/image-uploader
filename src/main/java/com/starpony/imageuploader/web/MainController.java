@@ -1,7 +1,5 @@
 package com.starpony.imageuploader.web;
 
-import com.starpony.imageuploader.Configuration;
-import com.starpony.imageuploader.images.errors.ImagesException;
 import com.starpony.imageuploader.web.dto.SavedImageDTO;
 import com.starpony.imageuploader.images.ImagesService;
 
@@ -27,7 +25,7 @@ public class MainController {
 
     @PostMapping(path = "/upload/{path}")
     public SavedImageDTO uploadImage(@PathVariable String path,
-                                 @RequestParam MultipartFile image) throws IOException, ImagesException {
+                                 @RequestParam MultipartFile image) throws IOException {
 
         LOGGER.info(String.format("[/upload/%s] Upload file %s", path, image.getOriginalFilename()));
 
