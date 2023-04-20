@@ -1,7 +1,7 @@
 package com.starpony.imageuploader.images;
 
 import com.starpony.imageuploader.Configuration;
-import com.starpony.imageuploader.images.errors.ImagesException;
+import com.starpony.imageuploader.images.exceptions.InvalidPathException;
 import com.starpony.imageuploader.images.models.ImageFormat;
 import com.starpony.imageuploader.images.repositories.ImageRepository;
 
@@ -35,15 +35,15 @@ public class ImagesService {
      * @param imageStream стрим входного изображения
      * @return URL сохраненного изображения
      */
-    public String resizeAndSave(String path, InputStream imageStream) throws ImagesException {
+    public String resizeAndSave(String path, InputStream imageStream) {
         return save(path, resize(path, imageStream));
     }
 
-    private InputStream resize(String path, InputStream imageStream) throws ImagesException {
+    private InputStream resize(String path, InputStream imageStream) {
         return ImageUtils.processImage(imageStream, getPathImageFormat(path));
     }
 
-    private String save(String path, InputStream imageStream) throws ImagesException {
+    private String save(String path, InputStream imageStream) {
         ImageFormat imageFormat = getPathImageFormat(path);
         String filename = String.format("%s.%s", UUID.randomUUID(), imageFormat.getType());
 
@@ -52,8 +52,8 @@ public class ImagesService {
         return String.format("/%s/%s", path, filename);
     }
 
-    private ImageFormat getPathImageFormat(String path) throws ImagesException {
+    private ImageFormat getPathImageFormat(String path) {
         return configuration.getFormat(path).orElseThrow(
-                () -> new ImagesException(String.format("Path \"%s\" not found", path)));
+                () -> new InvalidPathException(String.format("Path \"%s\" not found", path)));
     }
 }
