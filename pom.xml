@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.starpony</groupId>
 	<artifactId>image-uploader</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>image-uploader</name>
 	<description>Microservice for uploading images to Minio</description>
 	<properties>
